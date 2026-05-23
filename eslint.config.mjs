@@ -1,23 +1,19 @@
-import { FlatCompat } from '@eslint/eslintrc'
-
-const compat = new FlatCompat({
-  baseDirectory: import.meta.dirname,
-})
+import nextCoreWebVitals from 'eslint-config-next/core-web-vitals'
+import nextTypescript from 'eslint-config-next/typescript'
+import simpleImportSort from 'eslint-plugin-simple-import-sort'
 
 const eslintConfig = [
-  ...compat.config({
-    extends: ['next'],
-    plugins: ['simple-import-sort'],
+  ...nextCoreWebVitals,
+  ...nextTypescript,
+  {
+    plugins: {
+      'simple-import-sort': simpleImportSort,
+    },
     rules: {
       'simple-import-sort/imports': 'error',
-      'react-hooks/rules-of-hooks': 'off',
+      'simple-import-sort/exports': 'error',
     },
-    settings: {
-      next: {
-        rootDir: 'packages/my-app/',
-      },
-    },
-  }),
+  },
 ]
 
 export default eslintConfig
