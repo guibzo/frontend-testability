@@ -1,6 +1,10 @@
-import '@/styles/global.css'
+import '@/styles/_global.css'
 
+import { cn } from '@/lib/cn'
 import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
 export const metadata: Metadata = {
   title: {
@@ -15,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang='pt'>
+    <html lang='pt' className={cn('dark font-sans', inter.variable)}>
       <body className='antialiased'>{children}</body>
     </html>
   )
