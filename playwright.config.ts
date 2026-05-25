@@ -4,8 +4,14 @@ export default defineConfig({
   testDir: './e2e',
   fullyParallel: false,
   use: {
-    baseURL: 'http://localhost:3100',
+    baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
+  },
+  webServer: {
+    command: 'npm run dev',
+    url: 'http://localhost:3000',
+    reuseExistingServer: true,
+    timeout: 240000,
   },
   projects: [
     {

@@ -26,7 +26,4 @@
   [role='button']:not(:disabled) {
     cursor: pointer;
   }
-  html {
-    @apply font-sans;
-  }
 }

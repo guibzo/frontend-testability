@@ -1,20 +1,30 @@
-import { usersFixture } from '@tests/mocks/fixtures/users'
+import { productsFixture } from '@tests/mocks/fixtures/products'
 import { http,HttpResponse } from 'msw'
 
 export const apiBaseUrl = 'http://localhost:3000'
-export const usersEndpoint = `${apiBaseUrl}/api/users`
+export const dashboardProductsEndpoint = `${apiBaseUrl}/api/dashboard/products`
 
 export const handlers = [
-  http.get(usersEndpoint, ({ request }) => {
+  http.get(dashboardProductsEndpoint, ({ request }) => {
     const url = new URL(request.url)
-    const query = (url.searchParams.get('q') || '').trim().toLowerCase()
+    const search = (url.searchParams.get('search') || '').toLowerCase()
+    const category = url.searchParams.get('category') || 'all'
+    const page = Number(url.searchParams.get('page') || '1')
+    const pageSize = Number(url.searchParams.get('pageSize') || '4')
+    const requestFingerprint = url.searchParams.get('requestFingerprint') || ''
 
-    if (!query) {
-      return HttpResponse.json({ users: usersFixture })
-    }
+    const filteredBySearch = productsFixture.filter(product => !search || product.name.toLowerCase().includes(search))
+    const filteredByCategory = filteredBySearch.filter(product => category === 'all' || product.category === category)
 
-    const users = usersFixture.filter(user => user.name.toLowerCase().includes(query))
+    const start = (page - 1) * pageSize
+    const items = filteredByCategory.slice(start, start + pageSize)
 
-    return HttpResponse.json({ users })
+    return HttpResponse.json({
+      items,
+      total: filteredByCategory.length,
+      page,
+      pageSize,
+      requestFingerprint,
+    })
   }),
 ]
