@@ -1,9 +1,10 @@
 'use server'
 
+import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
+import { type SignInSchema, signInSchema, type SignUpSchema, signUpSchema } from '@/app/auth/sign-in/schemas'
 import { auth } from '@/lib/auth'
-import { type SignInSchema, signInSchema, type SignUpSchema,signUpSchema } from '@/utils/auth-form-schema'
 
 export type AuthActionState = {
   status: 'idle' | 'error'
@@ -15,10 +16,7 @@ const parseErrorMessage = (error: unknown) => {
   return 'Unable to authenticate user.'
 }
 
-export const signInAction = async (
-  _previousState: AuthActionState,
-  values: SignInSchema,
-): Promise<AuthActionState> => {
+export const signInAction = async (_previousState: AuthActionState, values: SignInSchema): Promise<AuthActionState> => {
   const parsedData = signInSchema.safeParse(values)
 
   if (!parsedData.success) {
@@ -29,8 +27,10 @@ export const signInAction = async (
   }
 
   try {
+    const requestHeaders = await headers()
     await auth.api.signInEmail({
       body: parsedData.data,
+      headers: requestHeaders,
     })
   } catch (error) {
     return {
@@ -42,10 +42,7 @@ export const signInAction = async (
   redirect('/admin')
 }
 
-export const signUpAction = async (
-  _previousState: AuthActionState,
-  values: SignUpSchema,
-): Promise<AuthActionState> => {
+export const signUpAction = async (_previousState: AuthActionState, values: SignUpSchema): Promise<AuthActionState> => {
   const parsedData = signUpSchema.safeParse(values)
 
   if (!parsedData.success) {
@@ -58,12 +55,14 @@ export const signUpAction = async (
   const { name, email, password } = parsedData.data
 
   try {
+    const requestHeaders = await headers()
     await auth.api.signUpEmail({
       body: {
         name,
         email,
         password,
       },
+      headers: requestHeaders,
     })
   } catch (error) {
     return {
@@ -76,6 +75,8 @@ export const signUpAction = async (
 }
 
 export const signOutAction = async () => {
-  await auth.api.signOut()
+  await auth.api.signOut({
+    headers: await headers(),
+  })
   redirect('/auth/sign-in')
 }

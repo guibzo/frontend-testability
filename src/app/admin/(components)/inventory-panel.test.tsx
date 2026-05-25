@@ -41,7 +41,7 @@ describe('InventoryPanel', () => {
       />,
     )
 
-    expect(screen.getByRole('button', { name: 'Reserve 1' })).toBeDisabled()
+    expect(screen.getByTestId('inventory-reserve-p-1')).toBeDisabled()
   })
 
   it('shows optimistic stock update and syncs after mutation', async () => {
@@ -64,9 +64,9 @@ describe('InventoryPanel', () => {
       />,
     )
 
-    await user.click(screen.getByRole('button', { name: 'Reserve 1' }))
+    await user.click(screen.getByTestId('inventory-reserve-p-1'))
 
-    expect(screen.getByText('8')).toBeInTheDocument()
+    expect(screen.getByTestId('inventory-stock-p-1')).toHaveTextContent('8')
 
     await waitFor(() => {
       expect(reserveProductActionMock).toHaveBeenCalledWith({ productId: 'p-1' })

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { signInSchema, signUpSchema } from './auth-form-schema'
+import { signInSchema, signUpSchema } from './schemas'
 
 describe('auth form schema', () => {
   it('rejects invalid email in sign in', () => {
