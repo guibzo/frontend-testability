@@ -1,9 +1,8 @@
+import { usersFixture } from '@tests/mocks/fixtures/users'
 import { http,HttpResponse } from 'msw'
 
-import { usersFixture } from './fixtures/users'
-
 export const apiBaseUrl = 'http://localhost:3000'
-export const usersEndpoint = `${apiBaseUrl}/api/testing-lab/users`
+export const usersEndpoint = `${apiBaseUrl}/api/users`
 
 export const handlers = [
   http.get(usersEndpoint, ({ request }) => {
@@ -19,4 +18,3 @@ export const handlers = [
     return HttpResponse.json({ users })
   }),
 ]
-

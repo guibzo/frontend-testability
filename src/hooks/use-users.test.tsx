@@ -1,13 +1,13 @@
 import { renderHook, waitFor } from '@testing-library/react'
+import { usersEndpoint } from '@tests/mocks/handlers'
+import { server } from '@tests/mocks/server'
 import { http,HttpResponse } from 'msw'
 import { describe, expect, it } from 'vitest'
 
-import { usersEndpoint } from '../../../../tests/mocks/handlers'
-import { server } from '../../../../tests/mocks/server'
 import { useUsers } from './use-users'
 
 describe('useUsers', () => {
-  it('carrega usuários com sucesso', async () => {
+  it('loads users successfully', async () => {
     const { result } = renderHook(() => useUsers())
 
     await waitFor(() => {
@@ -18,10 +18,10 @@ describe('useUsers', () => {
     expect(result.current.hasError).toBe(false)
   })
 
-  it('exibe estado de erro quando request falha', async () => {
+  it('exposes error state when request fails', async () => {
     server.use(
       http.get(usersEndpoint, () => {
-        return HttpResponse.json({ message: 'erro' }, { status: 500 })
+        return HttpResponse.json({ message: 'error' }, { status: 500 })
       }),
     )
 
@@ -31,17 +31,17 @@ describe('useUsers', () => {
       expect(result.current.status).toBe('error')
     })
 
-    expect(result.current.errorMessage).toBe('Não foi possível carregar os usuários.')
+    expect(result.current.errorMessage).toBe('Unable to load users.')
     expect(result.current.users).toHaveLength(0)
   })
 
-  it('permite recarregar após erro e recuperar sucesso', async () => {
+  it('allows retry and recovers from error', async () => {
     let shouldFail = true
 
     server.use(
       http.get(usersEndpoint, () => {
         if (shouldFail) {
-          return HttpResponse.json({ message: 'erro' }, { status: 500 })
+          return HttpResponse.json({ message: 'error' }, { status: 500 })
         }
 
         return HttpResponse.json({

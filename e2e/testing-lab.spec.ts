@@ -1,8 +1,8 @@
 import { expect, test } from '@playwright/test'
 
 test.describe('Testing lab page', () => {
-  test('carrega usuários e filtra por nome', async ({ page }) => {
-    await page.route('**/api/testing-lab/users**', route => {
+  test('loads users and filters by name', async ({ page }) => {
+    await page.route('**/api/users**', route => {
       return route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -20,16 +20,16 @@ test.describe('Testing lab page', () => {
     await expect(page.getByText('Ada Lovelace')).toBeVisible()
     await expect(page.getByText('Grace Hopper')).toBeVisible()
 
-    await page.getByLabel('Buscar usuário por nome').fill('ada')
+    await page.getByLabel('Search user by name').fill('ada')
 
     await expect(page.getByText('Ada Lovelace')).toBeVisible()
     await expect(page.getByText('Grace Hopper')).toHaveCount(0)
   })
 
-  test('mostra erro e recupera com retry', async ({ page }) => {
+  test('shows error and recovers after retry', async ({ page }) => {
     let shouldFail = true
 
-    await page.route('**/api/testing-lab/users**', route => {
+    await page.route('**/api/users**', route => {
       if (shouldFail) {
         shouldFail = false
         return route.fulfill({
@@ -50,8 +50,8 @@ test.describe('Testing lab page', () => {
 
     await page.goto('/testing-lab')
 
-    await expect(page.getByText('Não foi possível carregar os usuários.')).toBeVisible()
-    await page.getByRole('button', { name: 'Tentar novamente' }).click()
+    await expect(page.getByText('Unable to load users.')).toBeVisible()
+    await page.getByRole('button', { name: 'Try again' }).click()
     await expect(page.getByText('Linus Torvalds')).toBeVisible()
   })
 })

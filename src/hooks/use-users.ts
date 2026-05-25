@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useState } from 'react'
 
-import { type User } from '../domain/users'
-import { fetchUsers } from '../services/users.service'
+import { getUsers } from '@/http/users/get-users'
+import { type User } from '@/http/users/types'
 
 type UsersStatus = 'idle' | 'loading' | 'success' | 'error'
 
@@ -11,7 +11,7 @@ const ABORT_ERROR_NAME = 'AbortError'
 
 const getErrorMessage = (error: unknown) => {
   if (error instanceof Error) return error.message
-  return 'Erro inesperado ao carregar usuários.'
+  return 'Unexpected error while loading users.'
 }
 
 const isAbortError = (error: unknown) => {
@@ -29,7 +29,7 @@ export const useUsers = ({ endpoint }: { endpoint?: string } = {}) => {
       setErrorMessage('')
 
       try {
-        const response = await fetchUsers({ endpoint, signal })
+        const response = await getUsers({ endpoint, signal })
         setUsers(response)
         setStatus('success')
       } catch (error) {
@@ -67,3 +67,4 @@ export const useUsers = ({ endpoint }: { endpoint?: string } = {}) => {
     reload,
   }
 }
+

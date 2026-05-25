@@ -1,6 +1,6 @@
-import type { ExternalUserDTO } from '@/features/testing-lab/domain/users'
+import { type ExternalUser } from '@/http/users/types'
 
-export const usersFixture: ExternalUserDTO[] = [
+export const usersFixture: ExternalUser[] = [
   {
     id: 1,
     name: '  Ada Lovelace  ',
@@ -26,4 +26,3 @@ export const usersFixture: ExternalUserDTO[] = [
     },
   },
 ]
-

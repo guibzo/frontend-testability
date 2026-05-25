@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { UsersLab } from '@/features/testing-lab/components/users-lab'
+import { UsersLab } from '@/app/testing-lab/(components)/users-lab'
 
 export const metadata: Metadata = {
   title: 'Testing Lab',
@@ -13,4 +13,3 @@ export default function TestingLabPage() {
     </main>
   )
 }
-

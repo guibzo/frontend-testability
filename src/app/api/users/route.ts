@@ -1,15 +1,8 @@
 import { NextResponse } from 'next/server'
 
-type ExternalUserDTO = {
-  id: number
-  name: string
-  email: string
-  company?: {
-    name?: string
-  } | null
-}
+import { type ExternalUser } from '@/http/users/types'
 
-const usersFixture: ExternalUserDTO[] = [
+const usersFixture: ExternalUser[] = [
   {
     id: 1,
     name: 'Ada Lovelace',
@@ -44,7 +37,7 @@ export async function GET(request: Request) {
   if (shouldFail) {
     return NextResponse.json(
       {
-        message: 'Falha intencional para estudo de erro.',
+        message: 'Intentional failure for testing.',
       },
       {
         status: 500,
