@@ -1,0 +1,166 @@
+groups:
+  - name: engineering-core
+    skills:
+      - path: engineering-core/clean-code
+        intent: Maintain readable, low-risk code and refactoring hygiene.
+        sources:
+          - .agent/skills/clean-code
+      - path: engineering-core/architecture
+        intent: Choose architecture patterns, analyze tradeoffs, and reason about structure.
+        sources:
+          - .agent/skills/architecture
+      - path: engineering-core/debugging
+        intent: Debug issues systematically by narrowing scope, validating hypotheses, and isolating root causes.
+        sources:
+          - .agent/skills/systematic-debugging
+          - .agent/workflows/debug.md
+      - path: engineering-core/code-review
+        intent: Review code for correctness, regression risk, maintainability, and missing tests.
+        sources:
+          - .agent/skills/code-review-checklist
+
+  - name: web-frontend
+    skills:
+      - path: web-frontend/design-system-ui
+        intent: Design web interfaces, layout systems, color, typography, and motion without generic defaults.
+        sources:
+          - .agent/skills/frontend-design
+          - .agent/skills/tailwind-patterns
+      - path: web-frontend/nextjs-performance
+        intent: Improve React and Next.js rendering, loading, bundle, and server performance.
+        sources:
+          - .agent/skills/nextjs-react-expert
+          - .agent/skills/performance-profiling
+      - path: web-frontend/web-quality-audit
+        intent: Audit accessibility, UX, performance, and web quality issues in existing frontends.
+        sources:
+          - .agent/skills/web-design-guidelines
+
+  - name: backend-data
+    skills:
+      - path: backend-data/api-design
+        intent: Design APIs, choose API style, define auth, versioning, and response patterns.
+        sources:
+          - .agent/skills/api-patterns
+      - path: backend-data/database-design
+        intent: Design schemas, indexes, migrations, and database strategy.
+        sources:
+          - .agent/skills/database-design
+      - path: backend-data/nodejs
+        intent: Apply Node.js service patterns and runtime best practices.
+        sources:
+          - .agent/skills/nodejs-best-practices
+      - path: backend-data/python
+        intent: Apply Python application patterns and service conventions.
+        sources:
+          - .agent/skills/python-patterns
+
+  - name: quality-security
+    skills:
+      - path: quality-security/testing-strategy
+        intent: Decide unit, integration, e2e, and TDD strategy with practical test boundaries.
+        sources:
+          - .agent/skills/testing-patterns
+          - .agent/skills/tdd-workflow
+          - .agent/skills/webapp-testing
+      - path: quality-security/security-review
+        intent: Review applications for vulnerabilities, abuse cases, and offensive testing angles.
+        sources:
+          - .agent/skills/vulnerability-scanner
+          - .agent/skills/red-team-tactics
+
+  - name: platform-ops
+    skills:
+      - path: platform-ops/bash-linux
+        intent: Work effectively in bash and Linux environments.
+        sources:
+          - .agent/skills/bash-linux
+      - path: platform-ops/powershell-windows
+        intent: Work effectively in PowerShell and Windows environments.
+        sources:
+          - .agent/skills/powershell-windows
+      - path: platform-ops/deployment
+        intent: Prepare, verify, and ship deployments with repeatable runbooks.
+        sources:
+          - .agent/skills/deployment-procedures
+          - .agent/workflows/deploy.md
+      - path: platform-ops/server-ops
+        intent: Operate servers, services, environments, and production hygiene.
+        sources:
+          - .agent/skills/server-management
+
+  - name: product-docs
+    skills:
+      - path: product-docs/discovery-brainstorm
+        intent: Explore product direction, sharpen goals, and turn ambiguity into decision-ready inputs.
+        sources:
+          - .agent/skills/brainstorming
+      - path: product-docs/planning
+        intent: Turn goals into plans, milestones, and execution-ready breakdowns.
+        sources:
+          - .agent/skills/plan-writing
+          - .agent/workflows/plan.md
+      - path: product-docs/documentation
+        intent: Produce technical docs, templates, and durable written guidance.
+        sources:
+          - .agent/skills/documentation-templates
+
+  - name: growth-geo
+    skills:
+      - path: growth-geo/seo
+        intent: Improve search visibility, content structure, and technical SEO decisions.
+        sources:
+          - .agent/skills/seo-fundamentals
+      - path: growth-geo/geo
+        intent: Improve discoverability in generative search and answer engines.
+        sources:
+          - .agent/skills/geo-fundamentals
+      - path: growth-geo/i18n
+        intent: Localize products and content safely across languages and regions.
+        sources:
+          - .agent/skills/i18n-localization
+
+  - name: specialized-games
+    skills:
+      - path: specialized-games/game-dev
+        intent: Route game work by platform, dimension, design, art, audio, and multiplayer needs.
+        sources:
+          - .agent/skills/game-development
+
+  - name: specialized-mobile
+    skills:
+      - path: specialized-mobile/mobile-ux
+        intent: Design mobile-first experiences, navigation, touch patterns, and platform-specific UX.
+        sources:
+          - .agent/skills/mobile-design
+
+  - name: tooling
+    skills:
+      - path: tooling/mcp-builder
+        intent: Build or extend MCP tooling and integration patterns.
+        sources:
+          - .agent/skills/mcp-builder
+      - path: tooling/lint-validate
+        intent: Run validation, linting, and type checks efficiently.
+        sources:
+          - .agent/skills/lint-and-validate
+      - path: tooling/parallel-agents
+        intent: Coordinate multi-agent work where the host supports delegation.
+        sources:
+          - .agent/skills/parallel-agents
+          - .agent/skills/intelligent-routing
+          - .agent/agents
+          - .agent/workflows/orchestrate.md
+
+  - name: scaffolding
+    skills:
+      - path: scaffolding/app-from-template
+        intent: Scaffold new apps from a small set of stable templates without loading heavy implementation detail by default.
+        sources:
+          - .agent/skills/app-builder
+          - .agent/skills/app-builder/templates
+
+migration_notes:
+  - The old `.agent/ARCHITECTURE.md` should not be used as the canonical index.
+  - Keep descriptions short and trigger-oriented.
+  - Migrate long prose into `references/` only when a skill has a clear primary intent.

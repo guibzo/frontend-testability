@@ -1,0 +1,76 @@
+import { renderHook, waitFor } from '@testing-library/react'
+import { http,HttpResponse } from 'msw'
+import { describe, expect, it } from 'vitest'
+
+import { usersEndpoint } from '../../../../tests/mocks/handlers'
+import { server } from '../../../../tests/mocks/server'
+import { useUsers } from './use-users'
+
+describe('useUsers', () => {
+  it('carrega usuários com sucesso', async () => {
+    const { result } = renderHook(() => useUsers())
+
+    await waitFor(() => {
+      expect(result.current.status).toBe('success')
+    })
+
+    expect(result.current.users).toHaveLength(3)
+    expect(result.current.hasError).toBe(false)
+  })
+
+  it('exibe estado de erro quando request falha', async () => {
+    server.use(
+      http.get(usersEndpoint, () => {
+        return HttpResponse.json({ message: 'erro' }, { status: 500 })
+      }),
+    )
+
+    const { result } = renderHook(() => useUsers())
+
+    await waitFor(() => {
+      expect(result.current.status).toBe('error')
+    })
+
+    expect(result.current.errorMessage).toBe('Não foi possível carregar os usuários.')
+    expect(result.current.users).toHaveLength(0)
+  })
+
+  it('permite recarregar após erro e recuperar sucesso', async () => {
+    let shouldFail = true
+
+    server.use(
+      http.get(usersEndpoint, () => {
+        if (shouldFail) {
+          return HttpResponse.json({ message: 'erro' }, { status: 500 })
+        }
+
+        return HttpResponse.json({
+          users: [{ id: 99, name: 'Margaret Hamilton', email: 'margaret@nasa.dev', company: { name: 'NASA' } }],
+        })
+      }),
+    )
+
+    const { result } = renderHook(() => useUsers())
+
+    await waitFor(() => {
+      expect(result.current.status).toBe('error')
+    })
+
+    shouldFail = false
+    result.current.reload()
+
+    await waitFor(() => {
+      expect(result.current.status).toBe('success')
+    })
+
+    expect(result.current.users).toEqual([
+      {
+        id: 99,
+        name: 'Margaret Hamilton',
+        email: 'margaret@nasa.dev',
+        company: 'NASA',
+      },
+    ])
+  })
+})
+
